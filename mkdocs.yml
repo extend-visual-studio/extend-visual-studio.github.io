@@ -1,0 +1,22 @@
+site_name: Extend Visual Studio
+copyright: Copyright &copy; 2015-2020 <a href="https://www.mfractor.com">MFractor Pty Ltd</a>
+site_author: "Matthew Robbins"
+site_description: "Learn how to extend the Visual Studio family"
+repo_url: "https://github.com/extend-visual-studio/extend-visual-studio.github.io"
+edit_uri: tree/docs/docs
+remote_branch: "master"
+strict: true
+theme:
+  name: 'material'
+  logo: 'images/logo.svg'
+  favicon: 'images/favicon.ico'
+  palette:
+    primary: 'white'
+markdown_extensions:
+  - attr_list
+  - admonition
+  - codehilite
+
+nav:
+- Home: index.md
+- Contributing: contributing.md
