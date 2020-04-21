@@ -2,11 +2,7 @@
 
 This site, extendvs.com, has a simple mission: to expand the public knowledge based for building extensions for Visual Studio Windows and Mac.
 
-extenvs.com is an open source, MIT licensed, community-led site.
-
-## Extension Samples
-
-Please find a list of extension samples
+extenvs.com is an open source, MIT licensed, community-led site. Please contribute and help grow the knowledge base for Visual Studio extensibility.
 
 ## Overview
 
