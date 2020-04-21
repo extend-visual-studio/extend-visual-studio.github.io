@@ -285,8 +285,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#package-startup" class="md-nav__link">
-    Package Startup
+  <a href="#extension-startup" class="md-nav__link">
+    Extension Startup
   </a>
   
 </li>
@@ -320,15 +320,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#active-document" class="md-nav__link">
-    Active Document
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#running-document-table" class="md-nav__link">
-    Running Document Table
+  <a href="#active-documents" class="md-nav__link">
+    Active Documents
   </a>
   
 </li>
@@ -374,18 +367,6 @@
   
 </nav>
     
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="contributing/" title="Contributing" class="md-nav__link">
-      Contributing
-    </a>
   </li>
 
     
@@ -444,8 +425,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#package-startup" class="md-nav__link">
-    Package Startup
+  <a href="#extension-startup" class="md-nav__link">
+    Extension Startup
   </a>
   
 </li>
@@ -479,15 +460,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#active-document" class="md-nav__link">
-    Active Document
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#running-document-table" class="md-nav__link">
-    Running Document Table
+  <a href="#active-documents" class="md-nav__link">
+    Active Documents
   </a>
   
 </li>
@@ -556,40 +530,46 @@
 <h3 id="manifests">Manifests</h3>
 <p>The <em>manifest</em> declares the information about our extension such as its name, author, copyright, identifier and version number.</p>
 <p><strong>Visual Studio Windows</strong></p>
-<p>A Visual Studio Windows extension has two manifest files, the <code>vsix</code> manifest and the command manifest.</p>
-<p>*</p>
+<p>A Visual Studio Windows extension has the VSIX manifest and the command manifest.</p>
+<ul>
+<li>The VSIX manifest file (<code>extension.vsixmanifest</code>) defines the information about your extension such as name, author, version number and more. <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/anatomy-of-a-vsix-package?view=vs-2019">See here for documentation.</a></li>
+<li>The Visual Studio Command Table (<code>.vsct</code>) defines the commands that your package contains. <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/internals/visual-studio-command-table-dot-vsct-files?view=vs-2019">See here for documentation.</a></li>
+</ul>
 <p><strong>Visual Studio Mac</strong></p>
-<p>A Visual S</p>
-<p>To declare the name, version and</p>
-<p>The extension manifest is the <code>Manifest.addin.xml</code></p>
+<p>A Visual Studio Mac extension includes a file named <code>Manifest.addin.xml</code> that defines the extension points</p>
+<p>To declare the name, author, copyright, version etc of an extension, we use the following attributes:</p>
 <h3 id="package">Package</h3>
 <p>The <em>package</em> is the central class that represents our extension and exposes it to the IDE.</p>
 <p><strong>Visual Studio Windows</strong>
-The <code>AsyncPackage</code> class is the</p>
+We implement the <code>AsyncPackage</code> class to declare the core of our extension. <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-use-asyncpackage-to-load-vspackages-in-the-background?view=vs-2019">See here for documentation.</a></p>
 <p><strong>Visual Studio Mac</strong>
 Visual Studio Mac does not have the concept of a core package class.</p>
-<h3 id="package-startup">Package Startup</h3>
-<p>The package startup</p>
-<p><strong>Visual Studio Windows</strong></p>
+<h3 id="extension-startup">Extension Startup</h3>
+<p>For both Visual Studio Windows and Mac, extensions by default do not have a defined entry point. Extensions do not receive startup notifications by default and should be design so that they do not rely on a startup sequence.</p>
+<p><strong>Visual Studio Windows</strong>
+To detect the startup of our extension in Visual Studio Windows, we register the loading of our package against a specified IDE event using the <code>ProvideAutoLoad</code> attribute attached to our Package.</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/loading-vspackages?view=vs-2019">See here for documentation</a>.</p>
+<div class="admonition info">
+<p class="admonition-title">Avoid relying on any form of startup event to initialise your Visual Studio Windows extension. The modern Visual Studio APIs (such as IntelliSense or adornments) and Roslyn APIs load feature implementations outside of </p>
+</div>
 <p><strong>Visual Studio Mac</strong></p>
+<p>To detect the startup of our extension on Visual Studio Mac, we add a new <code>CommandHandler</code> to the <code>/MonoDevelop/Ide/StartupHandlers</code> extension point.</p>
 <h3 id="ide-application">IDE Application</h3>
 <p>The IDE application is the root access point for most of the major APIs we would use in our extension.</p>
 <p><strong>Visual Studio Windows</strong></p>
-<p>In Visual Studio Windows the root IDE/application object is the <a href="">DTE</a>.</p>
-<div class="codehilite"><pre><span></span>
-</pre></div>
-
-
+<p>In Visual Studio Windows the root IDE/application object is the <a href="https://docs.microsoft.com/en-us/dotnet/api/envdte.dte?view=visualstudiosdk-2017">DTE</a>.</p>
+<p>Importantly, the DTE also has the <a href="https://docs.microsoft.com/en-us/dotnet/api/envdte80.dte2?view=visualstudiosdk-2017">DTE2</a> interface that exposes many additional APIs.</p>
 <p><strong>Visual Studio Mac</strong></p>
-<p>In Visual Studio Mac, the root IDE/application object is the IdeApp.</p>
-<div class="codehilite"><pre><span></span><span class="n">MonoDevelop</span><span class="p">.</span><span class="n">Ide</span><span class="p">.</span><span class="n">IdeApp</span><span class="p">;</span>
-</pre></div>
-
-
+<p>In Visual Studio Mac, the root IDE/application object is the <code>IdeApp</code>.</p>
 <h3 id="service-locator">Service Locator</h3>
 <p>The <em>service locator</em> is used to retrieve service implementations through a central access class.</p>
 <p><strong>Visual Studio Windows</strong>
 In Visual Studio Windows, the service locator is the <code>ServiceProvider</code> class.</p>
+<p>Below is an example of retrieving a service using the <code>ServiceProvider</code>:</p>
+<div class="codehilite"><pre><span></span><span class="n">var</span> <span class="n">dte</span> <span class="o">=</span> <span class="n">ServiceProvider</span><span class="p">.</span><span class="n">GlobalProvider</span><span class="p">.</span><span class="n">GetService</span><span class="p">(</span><span class="n">typeof</span><span class="p">(</span><span class="n">DTE</span><span class="p">))</span> <span class="k">as</span> <span class="n">DTE2</span><span class="p">;</span>
+</pre></div>
+
+
 <p><strong>Visual Studio Mac</strong>
 Visual Studio Mac does not have a service locator.</p>
 <p>To access core services:</p>
@@ -600,23 +580,37 @@ Visual Studio Mac does not have a service locator.</p>
 </ul>
 <h3 id="composition-manager">Composition Manager</h3>
 <p>The <em>composition manager</em> is used to retrieve parts that are exported to the Managed Extensibility Framework.</p>
+<p><strong>Visual Studio Windows</strong>
+We can access the MEF composition manager on Windows with the following code:</p>
+<div class="codehilite"><pre><span></span>
+</pre></div>
+
+
+<p><strong>Visual Studio Mac</strong>
+We can access the MEF composition manager on Mac with the following code:</p>
+<div class="codehilite"><pre><span></span>
+</pre></div>
+
+
+<h3 id="commands">Commands</h3>
+<p><strong>Visual Studio Windows</strong>
+In Visual Studio Windows we declare command elements in a <code>vsct</code> file and register new commands using the <code>OleMenuCommandService</code>.</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/extending-menus-and-commands?view=vs-2019">See here for documentation.</a></p>
+<p><strong>Visual Studio Mac</strong>
+In Visual Studio Mac we create <code>CommandHandler</code> sub-classes and then connect that command instance into an extension point using the <code>Manifest.addin.xml</code> file.</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/mac/extending-visual-studio-mac?view=vsmac-2019#extensions-and-extension-points">See here for documentation.</a></p>
+<h3 id="active-documents">Active Documents</h3>
+<p>The list of active, opened documents, also known as the running documents table, describe the documents that are currently open and have a source code editor user interface.</p>
+<p><strong>Visual Studio Windows</strong>
+In Visual Studio Windows, we can the <a href="https://docs.microsoft.com/en-us/dotnet/api/envdte80.dte2.documents?view=visualstudiosdk-2017#EnvDTE80_DTE2_Documents"><code>DTE2.Documents</code></a> property to access the currently open documents.</p>
+<p>To subscribe to document open/closed/modified events, we can use the <a href="https://docs.microsoft.com/en-us/dotnet/api/envdte.documentevents?view=visualstudiosdk-2017"><code>DTE2.Events.DocumentEvents</code></a> property.</p>
+<p><strong>Visual Studio Mac</strong>
+In Visual Studio Mac, we can use the <code>TypeSystemService.DocumentManager</code> to query the currently opened documents and subscribe to open/closed/modified events.</p>
+<h3 id="workspace-model">Workspace Model</h3>
+<p>In IDE extensions we have the concept of a <em>workspace model</em>, that is, the hierarchical relationship of a solution, its projects and the files and references of those projects.</p>
+<p>The <em>workspace model</em> is different to the <em>compilation model</em> as it incorporates project assets (like images or embedded resources), packages etc into the model. The <em>workspace model</em> is akin to what is displayed in the Solution Explorer, whereas the <em>compilation model</em> only contains information required to generate an executable.</p>
 <p><strong>Visual Studio Windows</strong></p>
 <p><strong>Visual Studio Mac</strong></p>
-<h3 id="commands">Commands</h3>
-<ul>
-<li><strong>Visual Studio Windows</strong>: OleCommand</li>
-<li><strong>Visual Studio Mac</strong>: CommandHandler.</li>
-</ul>
-<h3 id="active-document">Active Document</h3>
-<ul>
-<li><strong>Visual Studio Windows</strong>:</li>
-<li><strong>Visual Studio Mac</strong>:</li>
-</ul>
-<h3 id="running-document-table">Running Document Table</h3>
-<p>The runnign document table is used to describe which documents are currently open and</p>
-<h3 id="workspace-model">Workspace Model</h3>
-<p>In IDE extensions we have the concept of a <em>workspace model</em>, that is, the hierachical relationship of a solution, its projects and then those projects files and references.</p>
-<p>The <em>workspace model</em> is different to the <em>compilation model</em> as it</p>
 <h3 id="workspace-events">Workspace Events</h3>
 <h3 id="solution-padexplorer">Solution Pad/Explorer</h3>
 <h3 id="pads">Pads</h3>
@@ -636,27 +630,6 @@ Visual Studio Mac does not have a service locator.</p>
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-        
-          <a href="contributing/" title="Contributing" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Contributing
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
