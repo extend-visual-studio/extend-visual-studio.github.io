@@ -299,8 +299,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#composition-manager" class="md-nav__link">
-    Composition Manager
+  <a href="#mef-export-provider" class="md-nav__link">
+    MEF Export Provider
   </a>
   
 </li>
@@ -432,8 +432,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#composition-manager" class="md-nav__link">
-    Composition Manager
+  <a href="#mef-export-provider" class="md-nav__link">
+    MEF Export Provider
   </a>
   
 </li>
@@ -524,14 +524,14 @@
 <p>To declare the name, author, copyright, version etc of an extension, we use the following attributes:</p>
 <h3 id="package">Package</h3>
 <p>The <em>package</em> is the central class that represents our extension and exposes it to the IDE.</p>
-<p><strong>Visual Studio Windows</strong>
-We implement the <code>AsyncPackage</code> class to declare the core of our extension. <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-use-asyncpackage-to-load-vspackages-in-the-background?view=vs-2019">See here for documentation.</a></p>
-<p><strong>Visual Studio Mac</strong>
-Visual Studio Mac does not have the concept of a core package class.</p>
+<p><strong>Visual Studio Windows</strong></p>
+<p>We implement the <code>AsyncPackage</code> class to declare the core of our extension. <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-use-asyncpackage-to-load-vspackages-in-the-background?view=vs-2019">See here for documentation.</a></p>
+<p><strong>Visual Studio Mac</strong></p>
+<p>Visual Studio Mac does not have the concept of a core package class.</p>
 <h3 id="extension-startup">Extension Startup</h3>
 <p>For both Visual Studio Windows and Mac, extensions by default do not have a defined entry point. Extensions do not receive startup notifications by default and should be design so that they do not rely on a startup sequence.</p>
-<p><strong>Visual Studio Windows</strong>
-To detect the startup of our extension in Visual Studio Windows, we register the loading of our package against a specified IDE event using the <code>ProvideAutoLoad</code> attribute attached to our Package.</p>
+<p><strong>Visual Studio Windows</strong></p>
+<p>To detect the startup of our extension in Visual Studio Windows, we register the loading of our package against a specified IDE event using the <code>ProvideAutoLoad</code> attribute attached to our Package.</p>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/loading-vspackages?view=vs-2019">See here for documentation</a>.</p>
 <div class="admonition info">
 <p class="admonition-title">Avoid relying on any form of startup event to initialise your Visual Studio Windows extension. The modern Visual Studio APIs (such as IntelliSense or adornments) and Roslyn APIs load feature implementations outside of </p>
@@ -547,49 +547,50 @@ To detect the startup of our extension in Visual Studio Windows, we register the
 <p>In Visual Studio Mac, the root IDE/application object is the <code>IdeApp</code>.</p>
 <h3 id="service-locator">Service Locator</h3>
 <p>The <em>service locator</em> is used to retrieve service implementations through a central access class.</p>
-<p><strong>Visual Studio Windows</strong>
-In Visual Studio Windows, the service locator is the <code>ServiceProvider</code> class.</p>
+<p><strong>Visual Studio Windows</strong></p>
+<p>In Visual Studio Windows, the service locator is the <code>ServiceProvider</code> class.</p>
 <p>Below is an example of retrieving a service using the <code>ServiceProvider</code>:</p>
 <div class="codehilite"><pre><span></span><span class="n">var</span> <span class="n">dte</span> <span class="o">=</span> <span class="n">ServiceProvider</span><span class="p">.</span><span class="n">GlobalProvider</span><span class="p">.</span><span class="n">GetService</span><span class="p">(</span><span class="n">typeof</span><span class="p">(</span><span class="n">DTE</span><span class="p">))</span> <span class="k">as</span> <span class="n">DTE2</span><span class="p">;</span>
 </pre></div>
 
 
-<p><strong>Visual Studio Mac</strong>
-Visual Studio Mac does not have a service locator.</p>
+<p><strong>Visual Studio Mac</strong></p>
+<p>Visual Studio Mac does not have a service locator.</p>
 <p>To access core services:</p>
 <ul>
 <li>Use the static <code>IdeServices</code> to access core services like the ProjectService, TypeSystemService, DesktopService etc.</li>
 <li>Use the <code>CompositionManager</code> to access parts that have been exported to MEF.</li>
 <li>Use the <code>IdeApp</code> to access the core services such as the Workspace, Workbench</li>
 </ul>
-<h3 id="composition-manager">Composition Manager</h3>
-<p>The <em>composition manager</em> is used to retrieve parts that are exported to the Managed Extensibility Framework.</p>
-<p><strong>Visual Studio Windows</strong>
-We can access the MEF composition manager on Windows with the following code:</p>
-<div class="codehilite"><pre><span></span>
+<h3 id="mef-export-provider">MEF Export Provider</h3>
+<p>The <em>export provider</em> is used to retrieve parts that are exported to the <a href="https://docs.microsoft.com/en-us/dotnet/framework/mef/">Managed Extensibility Framework</a>.</p>
+<p><strong>Visual Studio Windows</strong></p>
+<p>We can access the export provider on Windows with the following code:</p>
+<div class="codehilite"><pre><span></span><span class="n">var</span> <span class="n">componentModel</span> <span class="o">=</span> <span class="p">(</span><span class="n">IComponentModel</span><span class="p">)</span><span class="n">Package</span><span class="p">.</span><span class="n">GetGlobalService</span><span class="p">(</span><span class="n">typeof</span><span class="p">(</span><span class="n">SComponentModel</span><span class="p">));</span>
+<span class="n">var</span> <span class="n">exportProvder</span> <span class="o">=</span> <span class="n">componentModel</span><span class="p">.</span><span class="n">DefaultExportProvider</span><span class="p">;</span>
 </pre></div>
 
 
-<p><strong>Visual Studio Mac</strong>
-We can access the MEF composition manager on Mac with the following code:</p>
-<div class="codehilite"><pre><span></span>
+<p><strong>Visual Studio Mac</strong></p>
+<p>We can access the MEF composition manager on Mac with the following code:</p>
+<div class="codehilite"><pre><span></span><span class="n">MonoDevelop</span><span class="p">.</span><span class="n">Ide</span><span class="p">.</span><span class="n">Composition</span><span class="p">.</span><span class="n">CompositionManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">ExportProvider</span><span class="p">;</span>
 </pre></div>
 
 
 <h3 id="commands">Commands</h3>
-<p><strong>Visual Studio Windows</strong>
-In Visual Studio Windows we declare command elements in a <code>vsct</code> file and register new commands using the <code>OleMenuCommandService</code>.</p>
+<p><strong>Visual Studio Windows</strong></p>
+<p>In Visual Studio Windows we declare command elements in a <code>vsct</code> file and register new commands using the <code>OleMenuCommandService</code>.</p>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/extending-menus-and-commands?view=vs-2019">See here for documentation.</a></p>
-<p><strong>Visual Studio Mac</strong>
-In Visual Studio Mac we create <code>CommandHandler</code> sub-classes and then connect that command instance into an extension point using the <code>Manifest.addin.xml</code> file.</p>
+<p><strong>Visual Studio Mac</strong></p>
+<p>In Visual Studio Mac we create <code>CommandHandler</code> sub-classes and then connect that command instance into an extension point using the <code>Manifest.addin.xml</code> file.</p>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/mac/extending-visual-studio-mac?view=vsmac-2019#extensions-and-extension-points">See here for documentation.</a></p>
 <h3 id="active-documents">Active Documents</h3>
 <p>The list of active, opened documents, also known as the running documents table, describe the documents that are currently open and have a source code editor user interface.</p>
-<p><strong>Visual Studio Windows</strong>
-In Visual Studio Windows, we can the <a href="https://docs.microsoft.com/en-us/dotnet/api/envdte80.dte2.documents?view=visualstudiosdk-2017#EnvDTE80_DTE2_Documents"><code>DTE2.Documents</code></a> property to access the currently open documents.</p>
+<p><strong>Visual Studio Windows</strong></p>
+<p>In Visual Studio Windows, we can the <a href="https://docs.microsoft.com/en-us/dotnet/api/envdte80.dte2.documents?view=visualstudiosdk-2017#EnvDTE80_DTE2_Documents"><code>DTE2.Documents</code></a> property to access the currently open documents.</p>
 <p>To subscribe to document open/closed/modified events, we can use the <a href="https://docs.microsoft.com/en-us/dotnet/api/envdte.documentevents?view=visualstudiosdk-2017"><code>DTE2.Events.DocumentEvents</code></a> property.</p>
-<p><strong>Visual Studio Mac</strong>
-In Visual Studio Mac, we can use the <code>TypeSystemService.DocumentManager</code> to query the currently opened documents and subscribe to open/closed/modified events.</p>
+<p><strong>Visual Studio Mac</strong></p>
+<p>In Visual Studio Mac, we can use the <code>TypeSystemService.DocumentManager</code> to query the currently opened documents and subscribe to open/closed/modified events.</p>
 <h3 id="workspace-model">Workspace Model</h3>
 <p>In IDE extensions we have the concept of a <em>workspace model</em>, that is, the hierarchical relationship of a solution, its projects and the files and references of those projects.</p>
 <p>The <em>workspace model</em> is different to the <em>compilation model</em> as it incorporates project assets (like images or embedded resources), packages etc into the model. The <em>workspace model</em> is akin to what is displayed in the Solution Explorer, whereas the <em>compilation model</em> only contains information required to generate an executable.</p>
@@ -597,7 +598,16 @@ In Visual Studio Mac, we can use the <code>TypeSystemService.DocumentManager</co
 <p><strong>Visual Studio Mac</strong></p>
 <h3 id="workspace-events">Workspace Events</h3>
 <h3 id="solution-padexplorer">Solution Pad/Explorer</h3>
+<p><strong>Visual Studio Windows</strong></p>
+<p>In Visual Studio Windows we can access the solution explorer using the <code>DTE.ToolWindows.SolutionExplorer</code> API.</p>
+<p><strong>Visual Studio</strong></p>
+<p>In Visual Studio Mac we can access the solution explorer using the <code>IdeApp.ProjectOperations</code> API.</p>
 <h3 id="pads">Pads</h3>
+<p>Pads are visual items that can be detached and moved around the IDE application.</p>
+<p><strong>Visual Studio Windows</strong></p>
+<p>In Visual Studio Windows we sub-class ToolWindowPane and add the <code>[ProvideToolWindow(typeof(MyToolWindow))]</code> attribute to our AsyncPackage to expose a new pad.</p>
+<p><strong>Visual Studio Mac</strong></p>
+<p>In Visual Studio Mac, we implement the <code>PadContent</code> class and then present it using the <code>IdeApp.Workbench.ShowPad</code> method.</p>
                 
                   
                 
