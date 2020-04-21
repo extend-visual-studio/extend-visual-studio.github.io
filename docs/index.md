@@ -30,9 +30,11 @@ To declare the name, author, copyright, version etc of an extension, we use the 
 The *package* is the central class that represents our extension and exposes it to the IDE.
 
 **Visual Studio Windows**
+
 We implement the `AsyncPackage` class to declare the core of our extension. [See here for documentation.](https://docs.microsoft.com/en-us/visualstudio/extensibility/how-to-use-asyncpackage-to-load-vspackages-in-the-background?view=vs-2019)
 
 **Visual Studio Mac**
+
 Visual Studio Mac does not have the concept of a core package class.
 
 ### Extension Startup
@@ -40,6 +42,7 @@ Visual Studio Mac does not have the concept of a core package class.
 For both Visual Studio Windows and Mac, extensions by default do not have a defined entry point. Extensions do not receive startup notifications by default and should be design so that they do not rely on a startup sequence.
 
 **Visual Studio Windows**
+
 To detect the startup of our extension in Visual Studio Windows, we register the loading of our package against a specified IDE event using the `ProvideAutoLoad` attribute attached to our Package.
 
 [See here for documentation](https://docs.microsoft.com/en-us/visualstudio/extensibility/loading-vspackages?view=vs-2019).
@@ -69,6 +72,7 @@ In Visual Studio Mac, the root IDE/application object is the `IdeApp`.
 The *service locator* is used to retrieve service implementations through a central access class.
 
 **Visual Studio Windows**
+
 In Visual Studio Windows, the service locator is the `ServiceProvider` class.
 
 Below is an example of retrieving a service using the `ServiceProvider`:
@@ -77,6 +81,7 @@ var dte = ServiceProvider.GlobalProvider.GetService(typeof(DTE)) as DTE2;
 ```
 
 **Visual Studio Mac**
+
 Visual Studio Mac does not have a service locator.
 
 To access core services:
@@ -85,30 +90,37 @@ To access core services:
  * Use the `CompositionManager` to access parts that have been exported to MEF.
  * Use the `IdeApp` to access the core services such as the Workspace, Workbench
 
-### Composition Manager
+### MEF Export Provider
 
-The *composition manager* is used to retrieve parts that are exported to the Managed Extensibility Framework.
+The *export provider* is used to retrieve parts that are exported to the [Managed Extensibility Framework](https://docs.microsoft.com/en-us/dotnet/framework/mef/).
 
 **Visual Studio Windows**
-We can access the MEF composition manager on Windows with the following code:
+
+We can access the export provider on Windows with the following code:
 
 ```
+var componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
+var exportProvder = componentModel.DefaultExportProvider;
 ```
 
 **Visual Studio Mac**
+
 We can access the MEF composition manager on Mac with the following code:
 
 ```
+MonoDevelop.Ide.Composition.CompositionManager.Instance.ExportProvider;
 ```
 
 ### Commands
 
 **Visual Studio Windows**
+
 In Visual Studio Windows we declare command elements in a `vsct` file and register new commands using the `OleMenuCommandService`.
 
 [See here for documentation.](https://docs.microsoft.com/en-us/visualstudio/extensibility/extending-menus-and-commands?view=vs-2019)
 
 **Visual Studio Mac**
+
 In Visual Studio Mac we create `CommandHandler` sub-classes and then connect that command instance into an extension point using the `Manifest.addin.xml` file.
 
 [See here for documentation.](https://docs.microsoft.com/en-us/visualstudio/mac/extending-visual-studio-mac?view=vsmac-2019#extensions-and-extension-points)
@@ -117,11 +129,13 @@ In Visual Studio Mac we create `CommandHandler` sub-classes and then connect tha
 The list of active, opened documents, also known as the running documents table, describe the documents that are currently open and have a source code editor user interface.
 
 **Visual Studio Windows**
+
 In Visual Studio Windows, we can the [`DTE2.Documents`](https://docs.microsoft.com/en-us/dotnet/api/envdte80.dte2.documents?view=visualstudiosdk-2017#EnvDTE80_DTE2_Documents) property to access the currently open documents.
 
 To subscribe to document open/closed/modified events, we can use the [`DTE2.Events.DocumentEvents`](https://docs.microsoft.com/en-us/dotnet/api/envdte.documentevents?view=visualstudiosdk-2017) property.
 
 **Visual Studio Mac**
+
 In Visual Studio Mac, we can use the `TypeSystemService.DocumentManager` to query the currently opened documents and subscribe to open/closed/modified events.
 
 ### Workspace Model
@@ -137,4 +151,22 @@ The *workspace model* is different to the *compilation model* as it incorporates
 
 ### Solution Pad/Explorer
 
+**Visual Studio Windows**
+
+In Visual Studio Windows we can access the solution explorer using the `DTE.ToolWindows.SolutionExplorer` API.
+
+**Visual Studio**
+
+In Visual Studio Mac we can access the solution explorer using the `IdeApp.ProjectOperations` API.
+
 ### Pads
+
+Pads are visual items that can be detached and moved around the IDE application.
+
+**Visual Studio Windows**
+
+In Visual Studio Windows we sub-class ToolWindowPane and add the `[ProvideToolWindow(typeof(MyToolWindow))]` attribute to our AsyncPackage to expose a new pad.
+
+**Visual Studio Mac**
+
+In Visual Studio Mac, we implement the `PadContent` class and then present it using the `IdeApp.Workbench.ShowPad` method.
