@@ -2,11 +2,11 @@
 
 This site, extendvs.com, has a simple mission: to expand the public knowledge based for building extensions for Visual Studio Windows and Mac.
 
-extenvs.com is an open source, MIT licensed, community-led site. Please contribute and help grow the knowledge base for Visual Studio extensibility.
+wwww.extendvs.com is an open source, MIT licensed, community-led site. Please contribute and help grow the knowledge base for Visual Studio extensibility.
 
 ## Overview
 
-This sections provides an overview of the common concepts in an IDE extension and what the equivalant API/object is in the other IDE.
+This sections provides an overview of the common concepts in an IDE extension and what the equivalent API/object is in the other IDE.
 
 ### Manifests
 
@@ -150,6 +150,13 @@ The *workspace model* is different to the *compilation model* as it incorporates
 ### Workspace Events
 
 ### Solution Pad/Explorer
+
+The solution explorer enables developers to visually explore the contents of the workspace model. It is presented as a tree-view in a detachable pad.
+
+As extension developers, we may need to inspect the solution explorer to:
+
+ * Understand what the currently selected item is (such as a project, file or solution).
+ *
 
 **Visual Studio Windows**
 
