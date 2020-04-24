@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
-        <meta name="description" content="Learn how to extend the Visual Studio family">
+        <meta name="description" content="Learn how to build extensions for Visual Studio Windows and Mac">
       
       
       
@@ -363,6 +363,54 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Gallery
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Gallery
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="gallery/visual-studio-mac/" title="Mac" class="md-nav__link">
+      Mac
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="gallery/visual-studio-windows/" title="Windows" class="md-nav__link">
+      Windows
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -508,9 +556,9 @@
                 
                 <h2 id="welcome">Welcome</h2>
 <p>This site, extendvs.com, has a simple mission: to expand the public knowledge based for building extensions for Visual Studio Windows and Mac.</p>
-<p>extenvs.com is an open source, MIT licensed, community-led site. Please contribute and help grow the knowledge base for Visual Studio extensibility.</p>
+<p>wwww.extendvs.com is an open source, MIT licensed, community-led site. Please contribute and help grow the knowledge base for Visual Studio extensibility.</p>
 <h2 id="overview">Overview</h2>
-<p>This sections provides an overview of the common concepts in an IDE extension and what the equivalant API/object is in the other IDE.</p>
+<p>This sections provides an overview of the common concepts in an IDE extension and what the equivalent API/object is in the other IDE.</p>
 <h3 id="manifests">Manifests</h3>
 <p>The <em>manifest</em> declares the information about our extension such as its name, author, copyright, identifier and version number.</p>
 <p><strong>Visual Studio Windows</strong></p>
@@ -598,6 +646,12 @@
 <p><strong>Visual Studio Mac</strong></p>
 <h3 id="workspace-events">Workspace Events</h3>
 <h3 id="solution-padexplorer">Solution Pad/Explorer</h3>
+<p>The solution explorer enables developers to visually explore the contents of the workspace model. It is presented as a tree-view in a detachable pad.</p>
+<p>As extension developers, we may need to inspect the solution explorer to:</p>
+<ul>
+<li>Understand what the currently selected item is (such as a project, file or solution).
+ *</li>
+</ul>
 <p><strong>Visual Studio Windows</strong></p>
 <p>In Visual Studio Windows we can access the solution explorer using the <code>DTE.ToolWindows.SolutionExplorer</code> API.</p>
 <p><strong>Visual Studio</strong></p>
@@ -624,6 +678,27 @@
       
         
 <footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+        
+          <a href="gallery/visual-studio-mac/" title="Mac" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Mac
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

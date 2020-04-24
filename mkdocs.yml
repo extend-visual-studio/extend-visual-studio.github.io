@@ -19,6 +19,17 @@ markdown_extensions:
 
 nav:
 - Home: index.md
+- About The Author: about-the-author.md
+- API Overview: api-overview.md
+- Samples: samples.md
+- Getting Started:
+  - Mac: getting-started/visual-studio-mac.md
+  - Windows: getting-started/visual-studio-windows.md
 - Gallery:
   - Mac: gallery/visual-studio-mac.md
   - Windows: gallery/visual-studio-windows.md
+- Tools:
+  - Mac: tools/visual-studio-mac.md
+  - Windows: tools/visual-studio-windows.md
+- Managed Extensibility Framework (MEF):
+  - MEF In Visual Studio Mac: managed-extensibility-framework/mef-visual-studio-mac.md
