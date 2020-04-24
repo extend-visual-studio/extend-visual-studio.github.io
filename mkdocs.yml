@@ -22,6 +22,7 @@ nav:
 - About The Author: about-the-author.md
 - API Overview: api-overview.md
 - Samples: samples.md
+- Glossary: glossary.md
 - Getting Started:
   - Mac: getting-started/visual-studio-mac.md
   - Windows: getting-started/visual-studio-windows.md
